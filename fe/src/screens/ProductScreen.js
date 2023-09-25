@@ -1,17 +1,25 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, Card } from 'react-bootstrap'
 import Rating from '../components/Rating'
+import axios from 'axios'
 
-import products from '../products'
+  function ProductScreen({match}) {
+    const { id } = useParams();
+    const [product, setProduct] = useState([])
 
-function ProductScreen() {
-  const { id } = useParams();
-  const product = products.find((p) => p._id === id);
-
-  if (!product) {
-    return <div>Không tìm thấy sản phẩm</div>;
-  }
+    useEffect(() => {
+        async function fetchProduct() {
+          try {
+            const { data } = await axios.get(`/api/product/${id}`);
+            setProduct(data);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+    
+        fetchProduct();
+      }, []);
   return (
     <div>
 
