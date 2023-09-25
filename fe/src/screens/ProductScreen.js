@@ -11,7 +11,7 @@ import axios from 'axios'
     useEffect(() => {
         async function fetchProduct() {
           try {
-            const { data } = await axios.get(`/api/product/${id}`);
+            const { data } = await axios.get(`/api/product/${id}/`);
             setProduct(data);
           } catch (error) {
             console.error(error);
