@@ -65,7 +65,7 @@ function ProfileScreen() {
     return (
         <Row>
             <Col md={3}>
-                <h2>User Profile</h2>
+                <h2>Thông tin tài khoản</h2>
 
                 {message && <Message variant='danger'>{message}</Message>}
                 {error && <Message variant='danger'>{error}</Message>}
@@ -73,7 +73,7 @@ function ProfileScreen() {
                 <Form onSubmit={submitHandler}>
 
                     <Form.Group controlId='name'>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>Tên khách hàng</Form.Label>
                         <Form.Control
                             required
                             type='name'
@@ -85,7 +85,7 @@ function ProfileScreen() {
                     </Form.Group>
 
                     <Form.Group controlId='email'>
-                        <Form.Label>Email Address</Form.Label>
+                        <Form.Label>Địa chỉ email</Form.Label>
                         <Form.Control
                             required
                             type='email'
@@ -97,11 +97,11 @@ function ProfileScreen() {
                     </Form.Group>
 
                     <Form.Group controlId='password'>
-                        <Form.Label>Password</Form.Label>
+                        <Form.Label>Thay đổi mật khẩu</Form.Label>
                         <Form.Control
 
                             type='password'
-                            placeholder='Enter Password'
+                            placeholder='Nhập mật khẩu'
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         >
@@ -109,11 +109,11 @@ function ProfileScreen() {
                     </Form.Group>
 
                     <Form.Group controlId='passwordConfirm'>
-                        <Form.Label>Confirm Password</Form.Label>
+                        <Form.Label>Xác nhận mật khẩu</Form.Label>
                         <Form.Control
 
                             type='password'
-                            placeholder='Confirm Password'
+                            placeholder='Xác nhận mật khẩu'
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         >
