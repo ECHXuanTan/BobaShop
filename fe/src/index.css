@@ -1,5 +1,6 @@
 main{
   min-height: 80vh;
+  background-color: #fcf9f3;
 }
 
 h1{
@@ -51,5 +52,9 @@ margin: 0 auto;
 .carousel-caption h2 {
   font-size: 2.5vw;
 }
+}
+
+.btn-ship{
+  margin-top: 20px;
 }
 

@@ -64,7 +64,7 @@ function ProfileScreen() {
     }
     return (
         <Row>
-            <Col md={3}>
+            <Col md={5}>
                 <h2>Thông tin tài khoản</h2>
 
                 {message && <Message variant='danger'>{message}</Message>}
