@@ -10,7 +10,7 @@ import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstant
 
 function OrderScreen() {
 
-    const id = useParams()
+    const {id} = useParams()
     const orderId = id
     const dispatch = useDispatch()
 
@@ -28,7 +28,7 @@ function OrderScreen() {
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
-
+    const [usdTotalPrice, setUsdTotalPrice] = useState(null);
 
     if (!loading && !error) {
         order.itemsPrice = order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2)
@@ -38,7 +38,7 @@ function OrderScreen() {
     const addPayPalScript = () => {
         const script = document.createElement('script')
         script.type = 'text/javascript'
-        script.src = 'https://www.paypal.com/sdk/js?client-id=AeDXja18CkwFUkL-HQPySbzZsiTrN52cG13mf9Yz7KiV2vNnGfTDP0wDEN9sGlhZHrbb_USawcJzVDgn'
+        script.src = 'https://www.paypal.com/sdk/js?client-id=ASfwLufckxhb28Ojfvr9hdO4PVemlGFCJiLO8-AGUWUYk9eZOUkLIWxPdAfGstu1t5IipJIRST8ugcFY'
         script.async = true
         script.onload = () => {
             setSdkReady(true)
@@ -47,7 +47,8 @@ function OrderScreen() {
     }
     const history = useNavigate()
     useEffect(() => {
-        
+        const usdPrice = (order.totalPrice / 24).toFixed(2);
+        setUsdTotalPrice(usdPrice);
         if (!userInfo) {
             history('/login')
         }
@@ -66,7 +67,7 @@ function OrderScreen() {
         }
     }, [dispatch, order, orderId, successPay, successDeliver])
 
-
+  
     const successPaymentHandler = (paymentResult) => {
         dispatch(payOrder(orderId, paymentResult))
     }
@@ -81,46 +82,46 @@ function OrderScreen() {
         <Message variant='danger'>{error}</Message>
     ) : (
                 <div>
-                    <h1>Order: {order.Id}</h1>
+                    <h1>Đơn hàng: {order.Id}</h1>
                     <Row>
                         <Col md={8}>
                             <ListGroup variant='flush'>
                                 <ListGroup.Item>
-                                    <h2>Shipping</h2>
-                                    <p><strong>Name: </strong> {order.user.name}</p>
+                                    <h2>Thông tin vận chuyển</h2>
+                                    <p><strong>Tên người nhận: </strong> {order.user.name}</p>
                                     <p><strong>Email: </strong><a href={`mailto:${order.user.email}`}>{order.user.email}</a></p>
                                     <p>
-                                        <strong>Shipping: </strong>
-                                        {order.shippingAddress.address},  {order.shippingAddress.city}
+                                        <strong>Địa chỉ: </strong>
+                                        {order.shippingAddress.address}, {order.shippingAddress.district}, {order.shippingAddress.city},
                                         {'  '}
-                                        {order.shippingAddress.postalCode},
+            
                                 {'  '}
                                         {order.shippingAddress.country}
                                     </p>
 
                                     {order.isDelivered ? (
-                                        <Message variant='success'>Delivered on {order.deliveredAt}</Message>
+                                        <Message variant='success'>Đã giao hàng vào {order.deliveredAt}</Message>
                                     ) : (
-                                            <Message variant='warning'>Not Delivered</Message>
+                                            <Message variant='warning'>Chờ vận chuyển</Message>
                                         )}
                                 </ListGroup.Item>
 
                                 <ListGroup.Item>
-                                    <h2>Payment Method</h2>
+                                    <h2>Thanh toán</h2>
                                     <p>
-                                        <strong>Method: </strong>
+                                        <strong>Phương thức thanh toán: </strong>
                                         {order.paymentMethod}
                                     </p>
                                     {order.isPaid ? (
-                                        <Message variant='success'>Paid on {order.paidAt}</Message>
+                                        <Message variant='success'>Đã thanh toán {order.paidAt}</Message>
                                     ) : (
-                                            <Message variant='warning'>Not Paid</Message>
+                                            <Message variant='warning'>Chờ thanh toán</Message>
                                         )}
 
                                 </ListGroup.Item>
 
                                 <ListGroup.Item>
-                                    <h2>Order Items</h2>
+                                    <h2>Danh sách sản phẩm</h2>
                                     {order.orderItems.length === 0 ? <Message variant='info'>
                                         Order is empty
                             </Message> : (
@@ -137,7 +138,7 @@ function OrderScreen() {
                                                             </Col>
 
                                                             <Col md={4}>
-                                                                {item.qty} X ${item.price} = ${(item.qty * item.price).toFixed(2)}
+                                                                {item.qty} X {item.price}đ = {(item.qty * item.price).toFixed(2)}đ
                                                             </Col>
                                                         </Row>
                                                     </ListGroup.Item>
@@ -154,34 +155,34 @@ function OrderScreen() {
                             <Card>
                                 <ListGroup variant='flush'>
                                     <ListGroup.Item>
-                                        <h2>Order Summary</h2>
+                                        <h2>Tổng đơn hàng</h2>
                                     </ListGroup.Item>
 
                                     <ListGroup.Item>
                                         <Row>
-                                            <Col>Items:</Col>
-                                            <Col>${order.itemsPrice}</Col>
+                                            <Col>Giá tiền:</Col>
+                                            <Col>{order.itemsPrice}đ</Col>
                                         </Row>
                                     </ListGroup.Item>
 
                                     <ListGroup.Item>
                                         <Row>
-                                            <Col>Shipping:</Col>
-                                            <Col>${order.shippingPrice}</Col>
+                                            <Col>Phí vận chuyển:</Col>
+                                            <Col>{order.shippingPrice}đ</Col>
                                         </Row>
                                     </ListGroup.Item>
 
                                     <ListGroup.Item>
                                         <Row>
-                                            <Col>Tax:</Col>
-                                            <Col>${order.taxPrice}</Col>
+                                            <Col>Thuế:</Col>
+                                            <Col>{order.taxPrice}đ</Col>
                                         </Row>
                                     </ListGroup.Item>
 
                                     <ListGroup.Item>
                                         <Row>
-                                            <Col>Total:</Col>
-                                            <Col>${order.totalPrice}</Col>
+                                            <Col>Tổng tiền:</Col>
+                                            <Col>{order.totalPrice}đ</Col>
                                         </Row>
                                     </ListGroup.Item>
 
@@ -194,7 +195,8 @@ function OrderScreen() {
                                                 <Loader />
                                             ) : (
                                                     <PayPalButton
-                                                        amount={order.totalPrice}
+                                                        
+                                                        amount={usdTotalPrice}
                                                         onSuccess={successPaymentHandler}
                                                     />
                                                 )}

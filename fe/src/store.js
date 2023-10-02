@@ -23,7 +23,9 @@ const reducer = combineReducers({
     userUpdateProfile: userUpdateProfileReducer,
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
-    
+    orderPay: orderPayReducer,
+    orderDeliver: orderDeliverReducer,
+
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') ?
