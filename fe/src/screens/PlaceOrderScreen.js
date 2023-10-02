@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { createOrder } from '../actions/orderActions'
 import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 
-function PlaceOrderScreen({ history }) {
+function PlaceOrderScreen() {
 
     const orderCreate = useSelector(state => state.orderCreate)
     const { order, error, success } = orderCreate
@@ -22,14 +22,14 @@ function PlaceOrderScreen({ history }) {
 
     cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)).toFixed(2)
 
-
+    const history = useNavigate()
     if (!cart.paymentMethod) {
-        history.push('/payment')
+        history('/payment')
     }
 
     useEffect(() => {
         if (success) {
-            history.push(`/order/${order._id}`)
+            history(`/order/${order._id}`)
             dispatch({ type: ORDER_CREATE_RESET })
         }
     }, [success, history])
@@ -53,10 +53,10 @@ function PlaceOrderScreen({ history }) {
                 <Col md={8}>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
-                            <h2>Shipping</h2>
+                            <h2>Địa chỉ giao hàng</h2>
 
                             <p>
-                                <strong>Shipping: </strong>
+                                <strong>Địa chỉ: </strong>
                                 {cart.shippingAddress.address},  {cart.shippingAddress.city}
                                 {'  '}
                                 {cart.shippingAddress.postalCode},
@@ -66,17 +66,17 @@ function PlaceOrderScreen({ history }) {
                         </ListGroup.Item>
 
                         <ListGroup.Item>
-                            <h2>Payment Method</h2>
+                            <h2>Thanh toán</h2>
                             <p>
-                                <strong>Method: </strong>
+                                <strong>Phương thức: </strong>
                                 {cart.paymentMethod}
                             </p>
                         </ListGroup.Item>
 
                         <ListGroup.Item>
-                            <h2>Order Items</h2>
+                            <h2>Sản phẩm</h2>
                             {cart.cartItems.length === 0 ? <Message variant='info'>
-                                Your cart is empty
+                                Giỏ hàng của bạn đang trống
                             </Message> : (
                                     <ListGroup variant='flush'>
                                         {cart.cartItems.map((item, index) => (
@@ -108,34 +108,34 @@ function PlaceOrderScreen({ history }) {
                     <Card>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
-                                <h2>Order Summary</h2>
+                                <h2>Tổng đơn hàng</h2>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Items:</Col>
-                                    <Col>${cart.itemsPrice}</Col>
+                                    <Col>Giá tiền:</Col>
+                                    <Col>{cart.itemsPrice}đ</Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Shipping:</Col>
-                                    <Col>${cart.shippingPrice}</Col>
+                                    <Col>Phí vận chuyển:</Col>
+                                    <Col>{cart.shippingPrice}đ</Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Tax:</Col>
-                                    <Col>${cart.taxPrice}</Col>
+                                    <Col>Thuế:</Col>
+                                    <Col>{cart.taxPrice}đ</Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Total:</Col>
-                                    <Col>${cart.totalPrice}</Col>
+                                    <Col>Tổng tiền:</Col>
+                                    <Col>{cart.totalPrice}đ</Col>
                                 </Row>
                             </ListGroup.Item>
 
@@ -151,7 +151,7 @@ function PlaceOrderScreen({ history }) {
                                     disabled={cart.cartItems === 0}
                                     onClick={placeOrder}
                                 >
-                                    Place Order
+                                    Đặt hàng
                                 </Button>
                             </ListGroup.Item>
 
