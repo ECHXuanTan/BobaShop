@@ -19,7 +19,7 @@ function OrderScreen() {
 
     const orderDetails = useSelector(state => state.orderDetails)
     const { order, error, loading } = orderDetails
-
+    
     const orderPay = useSelector(state => state.orderPay)
     const { loading: loadingPay, success: successPay } = orderPay
 
@@ -47,8 +47,9 @@ function OrderScreen() {
     }
     const history = useNavigate()
     useEffect(() => {
+        if (order) {
         const usdPrice = (order.totalPrice / 24).toFixed(2);
-        setUsdTotalPrice(usdPrice);
+        setUsdTotalPrice(usdPrice); }
         if (!userInfo) {
             history('/login')
         }
@@ -196,7 +197,7 @@ function OrderScreen() {
                                             ) : (
                                                     <PayPalButton
                                                         
-                                                        amount={usdTotalPrice}
+                                                        amount={usdTotalPrice }
                                                         onSuccess={successPaymentHandler}
                                                     />
                                                 )}

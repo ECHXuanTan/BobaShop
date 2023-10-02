@@ -7,7 +7,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstant'
-// import { listMyOrders } from '../actions/orderActions'
+import { listMyOrders } from '../actions/orderActions'
 
 function ProfileScreen() {
 
@@ -27,8 +27,8 @@ function ProfileScreen() {
     const userUpdateProfile = useSelector(state => state.userUpdateProfile)
     const { success } = userUpdateProfile 
 
-    // const orderListMy = useSelector(state => state.orderListMy)
-    // const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
+    const orderListMy = useSelector(state => state.orderListMy)
+    const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
 
     const history = useNavigate()
     useEffect(() => {
@@ -38,7 +38,7 @@ function ProfileScreen() {
             if (!user || !user.name || success || userInfo._id !== user._id) {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
-                // dispatch(listMyOrders())
+                dispatch(listMyOrders())
             } else {
                 setName(user.name)
                 setEmail(user.email)
@@ -120,15 +120,15 @@ function ProfileScreen() {
                         </Form.Control>
                     </Form.Group>
 
-                    <Button type='submit' variant='primary'>
-                        Update
+                    <Button className='btn-ship' type='submit' variant='primary'>
+                        Cập nhật
                 </Button>
 
                 </Form>
             </Col>
 
-            {/* <Col md={9}>
-                <h2>My Orders</h2>
+            <Col md={9} className='col-margin-top'>
+                <h2>Đơn hàng của bạn</h2>
                 {loadingOrders ? (
                     <Loader />
                 ) : errorOrders ? (
@@ -138,10 +138,10 @@ function ProfileScreen() {
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Date</th>
-                                        <th>Total</th>
-                                        <th>Paid</th>
-                                        <th>Delivered</th>
+                                        <th>Ngày đặt</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Thanh toán</th>
+                                        <th>Vận chuyển</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -151,13 +151,16 @@ function ProfileScreen() {
                                         <tr key={order._id}>
                                             <td>{order._id}</td>
                                             <td>{order.createdAt.substring(0, 10)}</td>
-                                            <td>${order.totalPrice}</td>
+                                            <td>{order.totalPrice}đ</td>
                                             <td>{order.isPaid ? order.paidAt.substring(0, 10) : (
+                                                <i className='fas fa-times' style={{ color: 'red' }}></i>
+                                            )}</td>
+                                            <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : (
                                                 <i className='fas fa-times' style={{ color: 'red' }}></i>
                                             )}</td>
                                             <td>
                                                 <LinkContainer to={`/order/${order._id}`}>
-                                                    <Button className='btn-sm'>Details</Button>
+                                                    <Button className='btn-sm'>Xem chi tiết</Button>
                                                 </LinkContainer>
                                             </td>
                                         </tr>
@@ -165,7 +168,7 @@ function ProfileScreen() {
                                 </tbody>
                             </Table>
                         )}
-            </Col> */}
+            </Col>
         </Row>
     )
 }
