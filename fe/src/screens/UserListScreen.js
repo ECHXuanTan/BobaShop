@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,7 +7,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { listUsers, deleteUser } from '../actions/userActions'
 
-function UserListScreen({ history }) {
+function UserListScreen() {
 
     const dispatch = useDispatch()
 
@@ -18,13 +19,13 @@ function UserListScreen({ history }) {
 
     const userDelete = useSelector(state => state.userDelete)
     const { success: successDelete } = userDelete
-
+    const history = useNavigate
 
     useEffect(() => {
         if (userInfo && userInfo.isAdmin) {
             dispatch(listUsers())
         } else {
-            history.push('/login')
+            history('/login')
         }
 
     }, [dispatch, history, successDelete, userInfo])
