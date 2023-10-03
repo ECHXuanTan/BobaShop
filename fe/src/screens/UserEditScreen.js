@@ -24,7 +24,7 @@ function UserEditScreen() {
 
     const userUpdate = useSelector(state => state.userUpdate)
     const { error: errorUpdate, loading: loadingUpdate, success: successUpdate } = userUpdate
-    const history = useNavigate
+    const history = useNavigate()
     useEffect(() => {
 
         if (successUpdate) {
