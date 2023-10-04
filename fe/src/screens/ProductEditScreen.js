@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
@@ -10,9 +10,10 @@ import { listProductDetails, updateProduct } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstant'
 
 
-function ProductEditScreen({ match, history }) {
+function ProductEditScreen() {
 
-    const productId = match.params.id
+    const {id} = useParams()
+    const productId = id
 
     const [name, setName] = useState('')
     const [price, setPrice] = useState(0)
@@ -31,12 +32,12 @@ function ProductEditScreen({ match, history }) {
     const productUpdate = useSelector(state => state.productUpdate)
     const { error: errorUpdate, loading: loadingUpdate, success: successUpdate } = productUpdate
 
-
+    const history = useNavigate()
     useEffect(() => {
 
         if (successUpdate) {
             dispatch({ type: PRODUCT_UPDATE_RESET })
-            history.push('/admin/productlist')
+            history('/admin/productlist')
         } else {
             if (!product.name || product._id !== Number(productId)) {
                 dispatch(listProductDetails(productId))
@@ -102,16 +103,15 @@ function ProductEditScreen({ match, history }) {
             <Link to='/admin/productlist'>
                 Go Back
             </Link>
-
+        
             <FormContainer>
-                <h1>Edit Product</h1>
+            <h1>Edit Product</h1>
                 {loadingUpdate && <Loader />}
                 {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
 
                 {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message>
                     : (
                         <Form onSubmit={submitHandler}>
-
                             <Form.Group controlId='name'>
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control
@@ -148,18 +148,8 @@ function ProductEditScreen({ match, history }) {
                                 >
                                 </Form.Control>
 
-                                <Form.File
-                                    id='image-file'
-                                    label='Choose File'
-                                    custom
-                                    onChange={uploadFileHandler}
-                                >
-
-                                </Form.File>
-                                {uploading && <Loader />}
 
                             </Form.Group>
-
 
                             <Form.Group controlId='brand'>
                                 <Form.Label>Brand</Form.Label>
@@ -210,17 +200,17 @@ function ProductEditScreen({ match, history }) {
                             </Form.Group>
 
 
-                            <Button type='submit' variant='primary'>
+                            <Button className='btn-ship' type='submit' variant='primary'>
                                 Update
                         </Button>
 
                         </Form>
-                    )}
-
-            </FormContainer >
+                
+                )}
+            </FormContainer>
         </div>
 
     )
 }
 
-export default ProductEditScreen
+export default ProductEditScreen;
