@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, FormFile } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
@@ -101,11 +101,11 @@ function ProductEditScreen() {
     return (
         <div>
             <Link to='/admin/productlist'>
-                Go Back
+                Quay lại
             </Link>
         
             <FormContainer>
-            <h1>Edit Product</h1>
+            <h1>Chỉnh sửa sản phẩm</h1>
                 {loadingUpdate && <Loader />}
                 {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
 
@@ -113,7 +113,7 @@ function ProductEditScreen() {
                     : (
                         <Form onSubmit={submitHandler}>
                             <Form.Group controlId='name'>
-                                <Form.Label>Name</Form.Label>
+                                <Form.Label>Tên sản phẩm</Form.Label>
                                 <Form.Control
 
                                     type='name'
@@ -125,7 +125,7 @@ function ProductEditScreen() {
                             </Form.Group>
 
                             <Form.Group controlId='price'>
-                                <Form.Label>Price</Form.Label>
+                                <Form.Label>Đơn giá</Form.Label>
                                 <Form.Control
 
                                     type='number'
@@ -138,21 +138,27 @@ function ProductEditScreen() {
 
 
                             <Form.Group controlId='image'>
-                                <Form.Label>Image</Form.Label>
+                                <Form.Label>Hình ảnh</Form.Label>
                                 <Form.Control
 
                                     type='text'
-                                    placeholder='Enter image'
+                                    placeholder='Tải ảnh lên'
                                     value={image}
                                     onChange={(e) => setImage(e.target.value)}
                                 >
                                 </Form.Control>
 
-
+                                <Form.Control type="file" 
+                                    id='image-file'
+                                    label='Choose File'
+                                    custom
+                                    onChange={uploadFileHandler}
+                                    />
+                               {uploading && <Loader />}
                             </Form.Group>
 
                             <Form.Group controlId='brand'>
-                                <Form.Label>Brand</Form.Label>
+                                <Form.Label>Thương hiệu</Form.Label>
                                 <Form.Control
 
                                     type='text'
@@ -164,7 +170,7 @@ function ProductEditScreen() {
                             </Form.Group>
 
                             <Form.Group controlId='countinstock'>
-                                <Form.Label>Stock</Form.Label>
+                                <Form.Label>Số lượng trong kho</Form.Label>
                                 <Form.Control
 
                                     type='number'
@@ -176,7 +182,7 @@ function ProductEditScreen() {
                             </Form.Group>
 
                             <Form.Group controlId='category'>
-                                <Form.Label>Category</Form.Label>
+                                <Form.Label>Thương hiệu</Form.Label>
                                 <Form.Control
 
                                     type='text'
@@ -188,7 +194,7 @@ function ProductEditScreen() {
                             </Form.Group>
 
                             <Form.Group controlId='description'>
-                                <Form.Label>Description</Form.Label>
+                                <Form.Label>Mô tả</Form.Label>
                                 <Form.Control
 
                                     type='text'
@@ -201,7 +207,7 @@ function ProductEditScreen() {
 
 
                             <Button className='btn-ship' type='submit' variant='primary'>
-                                Update
+                                Cập nhật
                         </Button>
 
                         </Form>

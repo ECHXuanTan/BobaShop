@@ -58,12 +58,12 @@ function ProductListScreen() {
         <div>
             <Row className='align-items-center'>
                 <Col>
-                    <h1>Products</h1>
+                    <h1>Danh sách sản phẩm</h1>
                 </Col>
 
                 <Col className='text-right'>
                     <Button className='my-3' onClick={createProductHandler}>
-                        <i className='fas fa-plus'></i> Create Product
+                        <i className='fas fa-plus'></i> Tạo sản phẩm mới
                     </Button>
                 </Col>
             </Row>
@@ -85,10 +85,10 @@ function ProductListScreen() {
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>NAME</th>
-                                        <th>PRICE</th>
-                                        <th>CATEGORY</th>
-                                        <th>BRAND</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Đơn giá</th>
+                                        <th>Danh mục</th>
+                                        <th>Thương hiệu</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -98,7 +98,7 @@ function ProductListScreen() {
                                         <tr key={product._id}>
                                             <td>{product._id}</td>
                                             <td>{product.name}</td>
-                                            <td>${product.price}</td>
+                                            <td>{product.price}đ</td>
                                             <td>{product.category}</td>
                                             <td>{product.brand}</td>
 
