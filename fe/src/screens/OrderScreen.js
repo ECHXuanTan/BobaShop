@@ -212,7 +212,7 @@ function OrderScreen() {
                                             className='btn btn-block'
                                             onClick={deliverHandler}
                                         >
-                                            Mark As Delivered
+                                            Giao hàng
                                         </Button>
                                     </ListGroup.Item>
                                 )}
