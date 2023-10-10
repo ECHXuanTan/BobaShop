@@ -1,22 +1,25 @@
 import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
-import { useNavigate  } from 'react-router-dom'
+import { useNavigate, useLocation  } from 'react-router-dom'
+import { FaSearch } from 'react-icons/fa';
+
 
 function SearchBox() {
     const [keyword, setKeyword] = useState('')
 
-    const history = useNavigate ()
+    const history = useNavigate()
+    const location = useLocation()
 
     const submitHandler = (e) => {
         e.preventDefault()
         if (keyword) {
-            history(`/?keyword=${keyword}&page=1`)
+            history(`/?keyword=${keyword}`)
         } else {
-            history(history(history.location.pathname))
+            history(history(location.pathname))
         }
     }
     return (
-        <Form onSubmit={submitHandler} inline>
+        <Form style={{display: 'flex', alignItems: 'center'}} onSubmit={submitHandler} inline>
             <Form.Control
                 type='text'
                 name='q'
@@ -28,8 +31,9 @@ function SearchBox() {
                 type='submit'
                 variant='outline-success'
                 className='p-2'
+                style={{paddingLeft: '10px'}}
             >
-                Submit
+                 <FaSearch />
             </Button>
         </Form>
     )
