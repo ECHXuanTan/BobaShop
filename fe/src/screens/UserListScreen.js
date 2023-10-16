@@ -49,7 +49,7 @@ function UserListScreen() {
                         <Table striped bordered hover responsive className='table-sm'>
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    
                                     <th>TÊN KHÁCH HÀNG</th>
                                     <th>EMAIL</th>
                                     <th>ADMIN</th>
@@ -60,7 +60,7 @@ function UserListScreen() {
                             <tbody>
                                 {users.map(user => (
                                     <tr key={user._id}>
-                                        <td>{user._id}</td>
+                                       
                                         <td>{user.name}</td>
                                         <td>{user.email}</td>
                                         <td>{user.isAdmin ? (

@@ -182,7 +182,7 @@ function ProductEditScreen() {
                             </Form.Group>
 
                             <Form.Group controlId='category'>
-                                <Form.Label>Thương hiệu</Form.Label>
+                                <Form.Label>Danh mục</Form.Label>
                                 <Form.Control
 
                                     type='text'

@@ -1,40 +1,42 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col } from 'react-bootstrap'
-import {listProducts} from '../actions/productActions'
-import Product from './Product'
-import { useFetcher, useNavigate, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { Carousel, Image } from 'react-bootstrap'
 import Loader from './Loader'
 import Message from './Message'
+import { listTopProducts } from '../actions/productActions'
 
 
 function ProductCarousel() {
-   const dispatch = useDispatch()
-   const productList = useSelector(stage => stage.productList)
-   const {error, loading, products } = productList 
-   const location =useLocation()
-   let keyword = location.search
-   useEffect(() => {
-    dispatch(listProducts())
-   }, [dispatch])
+    const dispatch = useDispatch()
 
-    return (
-        <div>
-             <h1>Sản phẩm mới nhất</h1>
-             {loading ? (
-        <Loader/>
-      ) : error ? (
-        < Message variant='danger'>{error}</ Message> 
-      ) : ( <Row>
-                            {products.map(product => (
-                                <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                                    <Product product={product}/>
-                                </Col>
-                            ))}
-                        </Row>
-            )}
-        </div>
+    const productTopRated = useSelector(state => state.productTopRated)
+    const { error, loading, products } = productTopRated
+
+    useEffect(() => {
+        dispatch(listTopProducts())
+    }, [dispatch])
+
+    return (loading ? <Loader />
+        : error
+            ? <Message variant='danger'>{error}</Message>
+            : (
+                <Carousel pause='hover' className='bg-dark'>
+                    {products.map(product => (
+                        <Carousel.Item key={product._id}>
+                            <Link to={`/product/${product._id}`}>
+                                <Image src={product.image} alt={product.name} fluid />
+                                <Carousel.Caption className='carousel.caption'>
+                                    <h4>{product.name} ({product.price}đ)</h4>
+                                </Carousel.Caption>
+                            </Link>
+                        </Carousel.Item>
+                    ))}
+                </Carousel>
+            )
+
     )
 }
 
 export default ProductCarousel
+

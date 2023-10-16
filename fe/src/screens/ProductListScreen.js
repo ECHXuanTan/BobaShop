@@ -84,7 +84,7 @@ function ProductListScreen() {
                             <Table striped bordered hover responsive className='table-sm'>
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        
                                         <th>Tên sản phẩm</th>
                                         <th>Đơn giá</th>
                                         <th>Danh mục</th>
@@ -96,7 +96,7 @@ function ProductListScreen() {
                                 <tbody>
                                     {products.map(product => (
                                         <tr key={product._id}>
-                                            <td>{product._id}</td>
+                                           
                                             <td>{product.name}</td>
                                             <td>{product.price}đ</td>
                                             <td>{product.category}</td>
